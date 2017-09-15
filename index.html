@@ -26,20 +26,20 @@
             </div>
         </div>
     </section>
-    <section class="row controls">
+    <section class="row controls" v-if="game.finished">
         <div class="small-12 columns">
-            <button id="start-game">START NEW GAME</button>
+            <button id="start-game" @click="startGame">START NEW GAME</button>
         </div>
     </section>
-    <section class="row controls">
+    <section class="row controls" v-if="!game.finished">
         <div class="small-12 columns">
-            <button id="attack">ATTACK</button>
-            <button id="special-attack">SPECIAL ATTACK</button>
+            <button id="attack" @click="attackToMonster">ATTACK</button>
+            <button id="special-attack" >SPECIAL ATTACK</button>
             <button id="heal">HEAL</button>
             <button id="give-up">GIVE UP</button>
         </div>
     </section>
-    <section class="row log">
+    <section class="row log" v-if="!game.finished">
         <div class="small-12 columns">
             <ul>
                 <li>
@@ -51,3 +51,32 @@
 </div>
 </body>
 </html>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      game:{
+        finished: true,
+        player:{
+          health: 100
+        },
+        monster: {
+          health: 100
+        }
+      }
+    },
+    methods: {
+      startGame() {
+        this.game.finished = false
+      },
+      attackToMonster() {
+        this.monster.health = this.monster.health - 10
+      },
+      attackToPlayer() {
+        this.player.health = this.player.health - 10
+      }
+    }
+   
+    
+  });
+</script>
