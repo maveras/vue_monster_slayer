@@ -35,11 +35,10 @@
         <div class="small-12 columns">
             <button id="attack" @click="attackToMonster">ATTACK</button>
             <button id="special-attack" @click="specialAttack">SPECIAL ATTACK</button>
-            <button id="heal">HEAL</button>
+            <button id="heal" @click="healthPlayer">HEAL</button>
             <button id="give-up" @click="giveUp">GIVE UP</button>
         </div>
     </section>
-    <button @click='calculateAttack'></button>
     <section class="row log" v-if="!game.finished">
         <div class="small-12 columns">
             <ul>
@@ -79,8 +78,8 @@
       attackToPlayer() {
         this.game.player.health = this.game.player.health - this.calculateAttack()
       },
-      healthPlayer(){
-        this.game.player.health = this.game.player.health + calculateAttack()
+      healthPlayer() {
+        this.game.player.health = this.game.player.health + this.calculateAttack()
       },
       calculateAttack () {
         let rand = Math.floor(Math.random() * (10 - 5)) + 5
