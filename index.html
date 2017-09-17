@@ -36,7 +36,7 @@
             <button id="attack" @click="attackToMonster">ATTACK</button>
             <button id="special-attack" >SPECIAL ATTACK</button>
             <button id="heal">HEAL</button>
-            <button id="give-up">GIVE UP</button>
+            <button id="give-up" @click="giveUp">GIVE UP</button>
         </div>
     </section>
     <button @click='calculateAttack'></button>
@@ -85,11 +85,19 @@
       calculateAttack () {
         let rand = Math.floor(Math.random() * (10 - 5)) + 5
         return rand        
+      },
+      giveUp () {
+        this.game.player.health = 0
       }
     },
     watch: {
       'game.monster.health': function () {
-        if (this.game.monster.health <= 0 || this.game.player.health <= 0) {
+        if (this.game.monster.health <= 0 ) {
+          this.game.finished = true
+        }
+      },
+      'game.player.health': function () {
+        if (this.game.player.health <= 0) {
           this.game.finished = true
         }
       }
