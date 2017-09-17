@@ -69,6 +69,8 @@
     methods: {
       startGame() {
         this.game.finished = false
+        this.game.monster.health = 100
+        this.game.player.health = 100
       },
       attackToMonster() {
         this.game.monster.health = this.game.monster.health - this.calculateAttack()
