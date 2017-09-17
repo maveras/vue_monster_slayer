@@ -42,8 +42,8 @@
     <section class="row log" v-if="!game.finished">
         <div class="small-12 columns">
             <ul>
-                <li>
-
+                <li v-for="log in game.logs" :class="[{'player-turn': log.player},{'monster-turn':!log.player}]">
+                  {{ log.detail }}
                 </li>
             </ul>
         </div>
@@ -62,7 +62,8 @@
         },
         monster: {
           health: 100
-        }
+        },
+        logs: []
       }
     },
     methods: {
@@ -70,16 +71,30 @@
         this.game.finished = false
         this.game.monster.health = 100
         this.game.player.health = 100
+        this.game.logs = []
       },
       attackToMonster() {
-        this.game.monster.health = this.game.monster.health - this.calculateAttack()
+        let attack = this.calculateAttack()
+        this.game.monster.health -=  attack
         this.attackToPlayer ()
+        this.game.logs.unshift(
+          {
+            detail:'player has been deal '+ attack +' of damage', 
+            player: true
+          })
+
       },
       attackToPlayer() {
-        this.game.player.health = this.game.player.health - this.calculateAttack()
+        let attack = this.calculateAttack()
+        this.game.player.health -=  attack
+        this.game.logs.unshift(
+          {
+            detail:'monster has been deal '+ attack +' of damage', 
+            player: false
+          })
       },
       healthPlayer() {
-        this.game.player.health = this.game.player.health + this.calculateAttack()
+        this.game.player.health += 13
         this.attackToPlayer ()
       },
       calculateAttack () {
@@ -91,9 +106,10 @@
       },
       specialAttack () {
        this.attackToMonster ()
-       this.game.monster.health = this.game.monster.health - 4
+       this.game.monster.health = this.game.monster.health - 10
        this.attackToPlayer () 
       }
+
     },
     watch: {
       'game.monster.health': function () {
